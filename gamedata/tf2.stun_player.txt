@@ -1,0 +1,36 @@
+"Games"
+{
+	"tf"
+	{
+		"Functions"
+		{
+			"CTFPlayerShared::OnAddStunned"
+			{
+				"signature"	"CTFPlayerShared::OnAddStunned"
+				"callconv"	"thiscall"
+				"return"	"void"
+				"this"		"address"
+			}
+			"CTFPlayerShared::OnRemoveStunned"
+			{
+				"signature"	"CTFPlayerShared::OnRemoveStunned"
+				"callconv"	"thiscall"
+				"return"	"void"
+				"this"		"address"
+			}
+		}
+		"Signatures"
+		{
+			"CTFPlayerShared::OnAddStunned"
+			{
+				"library"	"server"
+				"linux"		"@_ZN15CTFPlayerShared12OnAddStunnedEv"
+			}
+			"CTFPlayerShared::OnRemoveStunned"
+			{
+				"library"	"server"
+				"linux"		"@_ZN15CTFPlayerShared15OnRemoveStunnedEv"
+			}
+		}
+	}
+}
