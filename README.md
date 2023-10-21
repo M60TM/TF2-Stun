@@ -33,6 +33,10 @@ forward void TF2_OnAddStunned(int client, float duration, int slowdown, int stun
 forward void TF2_OnRemoveStunned(int client, float duration, int slowdown, int stunflags, int stunner);
 ```
 
+## Dependancy
+- sourcemod 1.11+ (Because DHooks)
+- [SM-TFUtils](https://github.com/nosoop/SM-TFUtils)
+
 ----
 
 ## Building
