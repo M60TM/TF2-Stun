@@ -34,20 +34,35 @@ jobs:
         python3 configure.py
         ninja
 
-    - name: Build Package
-      # the package generation should probably be part of the ninja script itself
-      run: |
-        pushd build
-        7za a -r package.zip scripting/ plugins/ gamedata/
-        popd
-
-    - name: Upload Release Asset
-      id: upload-release-asset
+    - name: Upload Include
+      id: upload-release-include
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/package.zip
-        asset_name: package.zip
-        asset_content_type: application/zip
+        upload_url: ${{ github.event.release.upload_url  }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./build/scripting/include/tf2_stun.inc
+        asset_name: tf2_stun.inc
+        asset_content_type: text/plain
+
+    - name: Upload Plugin
+      id: upload-release-plugin
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url  }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./build/plugins/tf2_stun.smx
+        asset_name: tf2_stun.smx
+        asset_content_type: application/octet-stream
+
+    - name: Upload Game Config
+      id: upload-release-gamedata
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url  }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+        asset_path: ./build/gamedata/tf2.stun_player.txt
+        asset_name: tf2.stun_player.txt
+        asset_content_type: text/plain
