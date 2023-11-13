@@ -12,7 +12,7 @@ public Plugin myinfo = {
 	name = "[TF2] Stun Forward",
 	author = "Sandy",
 	description = "TF2_OnConditionRemoved wasn't enough.",
-	version = "1.0.0",
+	version = "1.0.1",
 	url = ""
 };
 
