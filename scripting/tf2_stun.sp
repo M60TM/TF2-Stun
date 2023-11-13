@@ -46,10 +46,41 @@ public void OnPluginStart() {
 MRESReturn DynDetour_OnAddStunnedPost(Address shared) {
 	int client = TF2Util_GetPlayerFromSharedAddress(shared);
 	
-	float duration = GetEntPropFloat(client, Prop_Send, "m_flMovementStunTime");
-	int slowdown = GetEntProp(client, Prop_Send, "m_iMovementStunAmount");
-	int stunFlags = GetEntProp(client, Prop_Send, "m_iStunFlags");
-	int stunner = GetEntPropEnt(client, Prop_Send, "m_hStunner");
+	DataPack pack = new DataPack();
+	pack.WriteCell(client);
+	pack.WriteFloat(GetEntPropFloat(client, Prop_Send, "m_flMovementStunTime"));
+	pack.WriteCell(GetEntProp(client, Prop_Send, "m_iMovementStunAmount"));
+	pack.WriteCell(GetEntProp(client, Prop_Send, "m_iStunFlags"));
+	pack.WriteCell(GetEntPropEnt(client, Prop_Send, "m_hStunner"));
+	
+	RequestFrame(NextFrame_CallAddStunnedFwd, pack);
+	
+	return MRES_Ignored;
+}
+
+MRESReturn DynDetour_OnRemoveStunnedPre(Address shared) {
+	int client = TF2Util_GetPlayerFromSharedAddress(shared);
+	
+	DataPack pack = new DataPack();
+	pack.WriteCell(client);
+	pack.WriteFloat(GetEntPropFloat(client, Prop_Send, "m_flMovementStunTime"));
+	pack.WriteCell(GetEntProp(client, Prop_Send, "m_iMovementStunAmount"));
+	pack.WriteCell(GetEntProp(client, Prop_Send, "m_iStunFlags"));
+	pack.WriteCell(GetEntPropEnt(client, Prop_Send, "m_hStunner"));
+	
+	RequestFrame(NextFrame_CallRemoveStunnedFwd, pack);
+	
+	return MRES_Ignored;
+}
+
+void NextFrame_CallAddStunnedFwd(DataPack pack) {
+	pack.Reset();
+	int client = pack.ReadCell();
+	float duration = pack.ReadFloat();
+	int slowdown = pack.ReadCell();
+	int stunFlags = pack.ReadCell();
+	int stunner = pack.ReadCell();
+	delete pack;
 	
 	Call_StartForward(g_FwdOnAddStunned);
 	Call_PushCell(client);
@@ -58,17 +89,16 @@ MRESReturn DynDetour_OnAddStunnedPost(Address shared) {
 	Call_PushCell(stunFlags);
 	Call_PushCell(stunner);
 	Call_Finish();
-	
-	return MRES_Ignored;
 }
 
-MRESReturn DynDetour_OnRemoveStunnedPre(Address shared) {
-	int client = TF2Util_GetPlayerFromSharedAddress(shared);
-	
-	float duration = GetEntPropFloat(client, Prop_Send, "m_flMovementStunTime");
-	int slowdown = GetEntProp(client, Prop_Send, "m_iMovementStunAmount");
-	int stunFlags = GetEntProp(client, Prop_Send, "m_iStunFlags");
-	int stunner = GetEntPropEnt(client, Prop_Send, "m_hStunner");
+void NextFrame_CallRemoveStunnedFwd(DataPack pack) {
+	pack.Reset();
+	int client = pack.ReadCell();
+	float duration = pack.ReadFloat();
+	int slowdown = pack.ReadCell();
+	int stunFlags = pack.ReadCell();
+	int stunner = pack.ReadCell();
+	delete pack;
 	
 	Call_StartForward(g_FwdOnRemoveStunned);
 	Call_PushCell(client);
@@ -77,6 +107,4 @@ MRESReturn DynDetour_OnRemoveStunnedPre(Address shared) {
 	Call_PushCell(stunFlags);
 	Call_PushCell(stunner);
 	Call_Finish();
-	
-	return MRES_Ignored;
 }
