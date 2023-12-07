@@ -23,11 +23,11 @@ public APLRes AskPluginLoad2(Handle hPlugin, bool late, char[] error, int maxlen
 }
 
 public void OnPluginStart() {
-	GameData data = new GameData("tf2.stun_player");
+	GameData data = new GameData("tf2.stun");
 	if (data == null) {
-		SetFailState("Failed to load gamedata(tf2.stun_player).");
-	} else if (!ReadDHooksDefinitions("tf2.stun_player")) {
-		SetFailState("Failed to read definitions in gamedata(tf2.stun_player).");
+		SetFailState("Failed to load gamedata(tf2.stun).");
+	} else if (!ReadDHooksDefinitions("tf2.stun")) {
+		SetFailState("Failed to read definitions in gamedata(tf2.stun).");
 	}
 	
 	DynamicDetour dynDetourOnAddStunned = GetDHooksDetourDefinition(data, "CTFPlayerShared::OnAddStunned");
