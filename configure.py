@@ -8,7 +8,7 @@ plugins = [
 # files to copy to builddir, relative to root
 # plugin names from previous list will be copied automatically
 copy_files = [
-	'gamedata/tf2.stun_player.txt',
+	'gamedata/tf2.stun.txt',
 	'scripting/include/tf2_stun.inc'
 ]
 
