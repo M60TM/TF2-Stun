@@ -19,7 +19,7 @@ jobs:
         submodules: true
 
     - name: Setup SourcePawn Compiler
-      uses: rumblefrog/setup-sp@v1.2.1
+      uses: rumblefrog/setup-sp@master
       with:
         version: "1.11.x"
         no-spcomp-proxy: true
@@ -33,36 +33,11 @@ jobs:
       run: |
         python3 configure.py
         ninja
-
-    - name: Upload Include
-      id: upload-release-include
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Release
+      uses: softprops/action-gh-release@master
       with:
-        upload_url: ${{ github.event.release.upload_url  }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./build/scripting/include/tf2_stun.inc
-        asset_name: tf2_stun.inc
-        asset_content_type: text/plain
-
-    - name: Upload Plugin
-      id: upload-release-plugin
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url  }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./build/plugins/tf2_stun.smx
-        asset_name: tf2_stun.smx
-        asset_content_type: application/octet-stream
-
-    - name: Upload Game Config
-      id: upload-release-gamedata
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ github.event.release.upload_url  }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-        asset_path: ./build/gamedata/tf2.stun_player.txt
-        asset_name: tf2.stun_player.txt
-        asset_content_type: text/plain
+        files: |
+          ./build/scripting/include/tf2_stun.inc
+          ./build/plugins/tf2_stun.smx
+          ./build/gamedata/tf2.stun.txt
