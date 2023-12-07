@@ -25,11 +25,13 @@
 			{
 				"library"	"server"
 				"linux"		"@_ZN15CTFPlayerShared12OnAddStunnedEv"
+				"windows"	"\x55\x8B\xEC\x83\xEC\x08\x56\x8B\xF1\x8B\x86\x04\x04\x00\x00\x85\xC0\x78\x2A"
 			}
 			"CTFPlayerShared::OnRemoveStunned"
 			{
 				"library"	"server"
 				"linux"		"@_ZN15CTFPlayerShared15OnRemoveStunnedEv"
+				"windows"	"\x55\x8B\xEC\x51\x56\x8B\xF1\xC7\x45\xFC\x00\x00\x00\x00\x8B\x86\x00\x04\x00\x00"
 			}
 		}
 	}
